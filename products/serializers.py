@@ -1,8 +1,13 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework import serializers
 from .models import Product
 
-class ProductSerializer(ModelSerializer):
+class ProductSerializer(serializers.ModelSerializer):
+    
+    url = serializers.HyperlinkedIdentityField(
+        view_name = 'product-detail',
+        lookup_field = 'pk'
+    )
     
     class Meta:
         model = Product
-        fields = '__all__'
+        fields = ['id', 'name', 'price', 'category', 'url']

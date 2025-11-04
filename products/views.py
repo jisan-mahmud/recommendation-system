@@ -16,13 +16,12 @@ class ProductDetailsView(RetrieveAPIView):
     serializer_class = ProductSerializer
     
     def retrieve(self, request, *args, **kwargs):
+        serializer = self.get_serializer
         
-        instance = self.get_object()
-        serializer = self.serializer_class(instance)
+        data = serializer(self.get_object()).data
+        data.pop('url')
         
-        data = serializer.data
-        
-        similar_product = get_similar_products(data['id'])
-        data['similar_product'] = self.serializer_class(similar_product, many= True).data
+        similar_products = get_similar_products(data['id'])
+        data['similar_products'] = serializer(similar_products, many= True).data
         
         return Response(data)
