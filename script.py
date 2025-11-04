@@ -5,7 +5,7 @@ import django
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'recommendation.settings')
 django.setup()
-from product.models import Product
+from products.models import Product
 
 with open('flipkart_com-ecommerce_sample.csv', mode='r', encoding="utf-8") as file:
     reader = csv.reader(file)
@@ -33,6 +33,6 @@ with open('flipkart_com-ecommerce_sample.csv', mode='r', encoding="utf-8") as fi
             }
             
             Product.objects.get_or_create(**product)
-
+            print('complete!')
         except Exception as e:
             print("Error parsing row:", e)
